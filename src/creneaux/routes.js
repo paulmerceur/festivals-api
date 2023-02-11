@@ -8,11 +8,11 @@ app.use(cors());
 app.use(express.json());
 
 // Call controller
-app.get("/", controller.getAllBenevoles);
-app.get("/:id", controller.getBenevoleById);
-app.post("/", controller.createBenevole);
-app.put("/:id", controller.updateBenevole);
-app.delete("/:id", controller.deleteBenevole);
+app.get("/", controller.getAllCreneaux);
+app.get("/:id", controller.getCreneauById);
+app.post("/", controller.createCreneau);
+app.put("/:id", controller.updateCreneau);
+app.delete("/:id", controller.deleteCreneau);
 
 
 module.exports = app;
