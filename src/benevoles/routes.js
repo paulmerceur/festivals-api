@@ -9,7 +9,6 @@ app.use(express.json());
 
 // Call controller
 app.get("/", controller.getAllBenevoles);
-app.post("/", controller.createBenevole);
 
 
 module.exports = app;
