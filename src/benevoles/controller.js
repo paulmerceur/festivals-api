@@ -47,3 +47,37 @@ exports.deleteBenevole = async (req, res) => {
     }
     res.status(200).json(data);
 }
+
+// Get benevole by creneau
+exports.getBenevoleByCreneau = async (req, res) => {
+    const { creneau } = req.params;
+    console.log(creneau)
+    const { data, error } = await supabase
+        .from("creneaux")
+        .select(`
+        zone(nom),
+        benevoles(*)
+        `)
+        .eq("creneau", creneau);
+    if (error) {
+        res.status(400).json(error);
+    }
+    res.status(200).json(data);
+}
+
+// Get benevole by zone id
+exports.getBenevoleByZoneId = async (req, res) => {
+    const { id } = req.params;
+    const { data, error } = await supabase
+        .from("creneaux")
+        .select(`
+        creneau,
+        benevoles(*)
+        `)
+        .eq("zone", id);
+    if (error) {
+        res.status(400).json(error);
+    }
+    res.status(200).json(data);
+}
+        

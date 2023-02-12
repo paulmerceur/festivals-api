@@ -13,6 +13,9 @@ app.get("/:id", controller.getBenevoleById);
 app.post("/", controller.createBenevole);
 app.put("/:id", controller.updateBenevole);
 app.delete("/:id", controller.deleteBenevole);
+// Using the creneaux
+app.get("/creneau/:creneau", controller.getBenevoleByCreneau);
+app.get("/zone/:id", controller.getBenevoleByZoneId);
 
 
 module.exports = app;
