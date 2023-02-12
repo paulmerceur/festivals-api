@@ -3,7 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require("cors");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const benevolesRoutes = require('./src/benevoles/routes');
 const jeuxRoutes = require('./src/jeux/routes');
@@ -23,6 +23,6 @@ app.use('/zones', zonesRoutes);
 app.use('/creneaux', creneauxRoutes);
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`App started on port ${port}`)
 });
 
