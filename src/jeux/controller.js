@@ -3,7 +3,14 @@ const supabase = require("../../config");
 // Get all jeux
 exports.getAllJeux = async (req, res) => {
     try {
-        const { data: jeux, error } = await supabase.from("jeux").select("*");
+        const { data: jeux, error } = await supabase
+            .from("jeux")
+            .select(`
+                id,
+                nom,
+                type,
+                zone: zone (nom)
+            `);
         if (error) throw error;
         res.status(200).json(jeux);
     } catch (error) {
@@ -16,7 +23,12 @@ exports.getJeuById = async (req, res) => {
     try {
         const { data: jeu, error } = await supabase
             .from("jeux")
-            .select("*")
+            .select(`
+                id,
+                nom,
+                type,
+                zone: zone (nom)
+            `)
             .eq("id", req.params.id);
         if (error) throw error;
         res.status(200).json(jeu);
