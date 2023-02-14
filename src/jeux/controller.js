@@ -37,7 +37,7 @@ exports.getJeuById = async (req, res) => {
     }
 }
 
-// Get jeu by benevole
+// Get all jeux by benevole
 exports.getJeuxByBenevole = async (req, res) => {
     try {
         const { data: creneaux, error } = await supabase
@@ -64,6 +64,25 @@ exports.getJeuxByBenevole = async (req, res) => {
         });
 
         res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+// Get all jeux by zone
+exports.getJeuxByZone = async (req, res) => {
+    try {
+        const { data: jeu, error } = await supabase
+            .from("jeux")
+            .select(`
+                id,
+                nom,
+                type,
+                zone: zone (id)
+            `)
+            .eq("zone", req.params.id);
+        if (error) throw error;
+        res.status(200).json(jeu);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
