@@ -38,20 +38,32 @@ exports.getJeuById = async (req, res) => {
 }
 
 // Get jeu by benevole
-// jeux: nom, type, zone(foreign key)
-// creneaux: creneau, benevole(foreign key), zone(foreign key)
 exports.getJeuxByBenevole = async (req, res) => {
     try {
-        const { data: jeux, error } = await supabase
+        const { data: creneaux, error } = await supabase
             .from("creneaux")
-            .select(`
-                creneau,
-                zone(nom),
-                jeux(*)
-            `)
+            .select("creneau, zone, benevole")
             .eq("benevole", req.params.id);
         if (error) throw error;
-        res.status(200).json(jeux);
+
+        const zoneIds = creneaux.map(creneau => creneau.zone);
+
+        const { data: jeux, error: error2 } = await supabase
+            .from("jeux")
+            .select("id, nom, zone(*)")
+            .in("zone", zoneIds);
+        if (error2) throw error2;
+        const result = creneaux.map(creneau => {
+            const jeu = jeux.find(j => j.zone.id === creneau.zone);
+            return {
+                id: jeu.id,
+                nom: jeu.nom,
+                zone: jeu.zone.nom,
+                creneau: creneau.creneau
+            };
+        });
+
+        res.status(200).json(result);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
