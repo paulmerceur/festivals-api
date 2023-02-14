@@ -58,7 +58,7 @@ exports.getJeuxByBenevole = async (req, res) => {
             return {
                 id: jeu.id,
                 nom: jeu.nom,
-                zone: jeu.zone.nom,
+                zone: jeu.zone,
                 creneau: creneau.creneau
             };
         });
