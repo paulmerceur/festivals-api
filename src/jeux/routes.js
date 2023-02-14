@@ -13,6 +13,7 @@ app.get("/:id", controller.getJeuById);
 app.post("/", controller.createJeu);
 app.put("/:id", controller.updateJeu);
 app.delete("/:id", controller.deleteJeu);
+app.get("/benevole/:id", controller.getJeuxByBenevole);
 
 
 module.exports = app;

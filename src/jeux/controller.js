@@ -37,6 +37,26 @@ exports.getJeuById = async (req, res) => {
     }
 }
 
+// Get jeu by benevole
+// jeux: nom, type, zone(foreign key)
+// creneaux: creneau, benevole(foreign key), zone(foreign key)
+exports.getJeuxByBenevole = async (req, res) => {
+    try {
+        const { data: jeux, error } = await supabase
+            .from("creneaux")
+            .select(`
+                creneau,
+                zone(nom),
+                jeux(*)
+            `)
+            .eq("benevole", req.params.id);
+        if (error) throw error;
+        res.status(200).json(jeux);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 // Create a new jeu
 exports.createJeu = async (req, res) => {
     try {
