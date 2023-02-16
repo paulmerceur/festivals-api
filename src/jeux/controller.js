@@ -1,7 +1,9 @@
+const express = require('express');
+const router = express.Router();
 const supabase = require("../../config");
 
 // Get all jeux
-exports.getAllJeux = async (req, res) => {
+router.getAllJeux = async (req, res) => {
     try {
         const { data: jeux, error } = await supabase
             .from("jeux")
@@ -19,7 +21,7 @@ exports.getAllJeux = async (req, res) => {
 }
 
 // Get jeu by id
-exports.getJeuById = async (req, res) => {
+router.getJeuById = async (req, res) => {
     try {
         const { data: jeu, error } = await supabase
             .from("jeux")
@@ -38,7 +40,7 @@ exports.getJeuById = async (req, res) => {
 }
 
 // Get all jeux by benevole
-exports.getJeuxByBenevole = async (req, res) => {
+router.getJeuxByBenevole = async (req, res) => {
     try {
         const { data: creneaux, error } = await supabase
             .from("creneaux")
@@ -70,7 +72,7 @@ exports.getJeuxByBenevole = async (req, res) => {
 }
 
 // Get all jeux by zone
-exports.getJeuxByZone = async (req, res) => {
+router.getJeuxByZone = async (req, res) => {
     try {
         const { data: jeu, error } = await supabase
             .from("jeux")
@@ -89,7 +91,7 @@ exports.getJeuxByZone = async (req, res) => {
 }
 
 // Create a new jeu
-exports.createJeu = async (req, res) => {
+router.createJeu = async (req, res) => {
     try {
         const { data: jeu, error } = await supabase
             .from("jeux")
@@ -102,7 +104,7 @@ exports.createJeu = async (req, res) => {
 }
 
 // Update a jeu
-exports.updateJeu = async (req, res) => {
+router.updateJeu = async (req, res) => {
     try {
         const { data: jeu, error } = await supabase
             .from("jeux")
@@ -116,7 +118,7 @@ exports.updateJeu = async (req, res) => {
 }
 
 // Delete a jeu
-exports.deleteJeu = async (req, res) => {
+router.deleteJeu = async (req, res) => {
     try {
         const { data: jeu, error } = await supabase
             .from("jeux")
@@ -128,3 +130,5 @@ exports.deleteJeu = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+module.exports = router;

@@ -1,21 +1,21 @@
-const controller = require("./controller");
 const express = require("express");
-const app = express();
-const cors = require("cors");
+const cors = require('cors');
+const router = express.Router();
+const controller = require("./controller");
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+router.use(cors());
+router.use(express.json());
 
 // Call controller
-app.get("/", controller.getAllBenevoles);
-app.get("/:id", controller.getBenevoleById);
-app.post("/", controller.createBenevole);
-app.put("/:id", controller.updateBenevole);
-app.delete("/:id", controller.deleteBenevole);
+router.get("/", controller.getAllBenevoles);
+router.get("/:id", controller.getBenevoleById);
+router.post("/", controller.createBenevole);
+router.put("/:id", controller.updateBenevole);
+router.delete("/:id", controller.deleteBenevole);
 // Using the creneaux
-app.get("/creneau/:creneau", controller.getBenevoleByCreneau);
-app.get("/zone/:id", controller.getBenevoleByZoneId);
+router.get("/creneau/:creneau", controller.getBenevoleByCreneau);
+router.get("/zone/:id", controller.getBenevoleByZoneId);
 
 
-module.exports = app;
+module.exports = router;

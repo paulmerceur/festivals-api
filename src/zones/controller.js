@@ -1,7 +1,9 @@
+const express = require('express');
+const router = express.Router();
 const supabase = require("../../config");
 
 // Get all zones
-exports.getAllZones = async (req, res) => {
+router.getAllZones = async (req, res) => {
     try {
         const { data: zones, error } = await supabase.from("zones").select("*");
         if (error) throw error;
@@ -12,7 +14,7 @@ exports.getAllZones = async (req, res) => {
 }
 
 // Get zone by id
-exports.getZoneById = async (req, res) => {
+router.getZoneById = async (req, res) => {
     try {
         const { data: zone, error } = await supabase
             .from("zones")
@@ -26,7 +28,7 @@ exports.getZoneById = async (req, res) => {
 }
 
 // Create a new zone
-exports.createZone = async (req, res) => {
+router.createZone = async (req, res) => {
     try {
         const { data: zone, error } = await supabase
             .from("zones")
@@ -39,7 +41,7 @@ exports.createZone = async (req, res) => {
 }
 
 // Update a zone
-exports.updateZone = async (req, res) => {
+router.updateZone = async (req, res) => {
     try {
         const { data: zone, error } = await supabase
             .from("zones")
@@ -53,7 +55,7 @@ exports.updateZone = async (req, res) => {
 }
 
 // Delete a zone
-exports.deleteZone = async (req, res) => {
+router.deleteZone = async (req, res) => {
     try {
         const { data: zone, error } = await supabase
             .from("zones")
@@ -65,3 +67,5 @@ exports.deleteZone = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+module.exports = router;
