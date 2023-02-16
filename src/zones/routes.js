@@ -1,18 +1,17 @@
-const controller = require("./controller");
 const express = require("express");
-const app = express();
-const cors = require("cors");
+const cors = require('cors');
+const router = express.Router();
+const controller = require("./controller");
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+router.use(express.json());
+router.use(cors());
 
-// Call controller
-app.get("/", controller.getAllZones);
-app.get("/:id", controller.getZoneById);
-app.post("/", controller.createZone);
-app.put("/:id", controller.updateZone);
-app.delete("/:id", controller.deleteZone);
+// Routes
+router.get("/", controller.getAllZones);
+router.get("/:id", controller.getZoneById);
+router.post("/", controller.createZone);
+router.put("/:id", controller.updateZone);
+router.delete("/:id", controller.deleteZone);
 
-
-module.exports = app;
+module.exports = router;

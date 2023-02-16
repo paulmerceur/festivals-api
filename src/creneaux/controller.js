@@ -1,7 +1,9 @@
+const express = require('express');
+const router = express.Router();
 const supabase = require("../../config");
 
 // Get all creneaux
-exports.getAllCreneaux = async (req, res) => {
+router.getAllCreneaux = async (req, res) => {
     try {
         const { data: creneaux, error } = await supabase.from("creneaux").select("*");
         if (error) throw error;
@@ -12,7 +14,7 @@ exports.getAllCreneaux = async (req, res) => {
 }
 
 // Get creneau by id
-exports.getCreneauById = async (req, res) => {
+router.getCreneauById = async (req, res) => {
     try {
         const { data: creneau, error } = await supabase
             .from("creneaux")
@@ -26,7 +28,7 @@ exports.getCreneauById = async (req, res) => {
 }
 
 // Create a new creneau
-exports.createCreneau = async (req, res) => {
+router.createCreneau = async (req, res) => {
     try {
         const { data: creneau, error } = await supabase
             .from("creneaux")
@@ -39,7 +41,7 @@ exports.createCreneau = async (req, res) => {
 }
 
 // Update a creneau
-exports.updateCreneau = async (req, res) => {
+router.updateCreneau = async (req, res) => {
     try {
         const { data: creneau, error } = await supabase
             .from("creneaux")
@@ -53,7 +55,7 @@ exports.updateCreneau = async (req, res) => {
 }
 
 // Delete a creneau
-exports.deleteCreneau = async (req, res) => {
+router.deleteCreneau = async (req, res) => {
     try {
         const { data: creneau, error } = await supabase
             .from("creneaux")
@@ -65,3 +67,5 @@ exports.deleteCreneau = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+module.exports = router;
