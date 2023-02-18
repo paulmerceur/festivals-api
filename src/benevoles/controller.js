@@ -23,11 +23,17 @@ router.getBenevoleById = async (req, res) => {
 
 // Create benevole
 router.createBenevole = async (req, res) => {
-    const { data, error } = await supabase.from("benevoles").insert(req.body);
-    if (error) {
-        res.status(400).json(error);
+    const { prenom, nom, email } = req.body;
+    try {
+        const { data, error } = await supabase
+            .from("benevoles")
+            .insert([{ prenom, nom, email }])
+            .select("*")
+        if (error) throw error;
+        res.status(201).json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-    res.status(200).json(data);
 }
 
 // Update benevole

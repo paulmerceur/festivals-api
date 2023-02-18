@@ -92,12 +92,14 @@ router.getJeuxByZone = async (req, res) => {
 
 // Create a new jeu
 router.createJeu = async (req, res) => {
+    const { nom, type, zone } = req.body;
     try {
-        const { data: jeu, error } = await supabase
+        const { data, error } = await supabase
             .from("jeux")
-            .insert([{ ...req.body }]);
+            .insert([{ nom, type, zone }])
+            .select("*")
         if (error) throw error;
-        res.status(200).json(jeu);
+        res.status(201).json(data);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

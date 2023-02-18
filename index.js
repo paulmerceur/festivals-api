@@ -9,6 +9,7 @@ const benevolesRouter= require('./src/benevoles/routes');
 const jeuxRouter= require('./src/jeux/routes');
 const zonesRouter= require('./src/zones/routes');
 const creneauxRouter= require('./src/creneaux/routes');
+const typesRouter= require('./src/types/routes');
 
 // Middlewares
 app.use(cors());
@@ -21,6 +22,7 @@ app.use('/benevoles', benevolesRouter);
 app.use('/jeux', jeuxRouter);
 app.use('/zones', zonesRouter);
 app.use('/creneaux', creneauxRouter);
+app.use('/types', typesRouter);
 
 app.listen(port, () => {
     console.log(`App started on port ${port}`)
