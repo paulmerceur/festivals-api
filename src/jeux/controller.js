@@ -23,7 +23,7 @@ router.getAllJeux = async (req, res) => {
 // Get jeu by id
 router.getJeuById = async (req, res) => {
     try {
-        const { data: jeu, error } = await supabase
+        const { data, error } = await supabase
             .from("jeux")
             .select(`
                 id,
@@ -33,7 +33,7 @@ router.getJeuById = async (req, res) => {
             `)
             .eq("id", req.params.id);
         if (error) throw error;
-        res.status(200).json(jeu);
+        res.status(200).json(data[0]);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

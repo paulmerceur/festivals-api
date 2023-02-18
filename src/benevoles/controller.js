@@ -18,7 +18,7 @@ router.getBenevoleById = async (req, res) => {
     if (error) {
         res.status(400).json(error);
     }
-    res.status(200).json(data);
+    res.status(200).json(data[0]);
 }
 
 // Create benevole

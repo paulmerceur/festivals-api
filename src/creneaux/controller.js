@@ -16,12 +16,12 @@ router.getAllCreneaux = async (req, res) => {
 // Get creneau by id
 router.getCreneauById = async (req, res) => {
     try {
-        const { data: creneau, error } = await supabase
+        const { data, error } = await supabase
             .from("creneaux")
             .select("*")
             .eq("id", req.params.id);
         if (error) throw error;
-        res.status(200).json(creneau);
+        res.status(200).json(data[0]);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

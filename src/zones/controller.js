@@ -16,12 +16,12 @@ router.getAllZones = async (req, res) => {
 // Get zone by id
 router.getZoneById = async (req, res) => {
     try {
-        const { data: zone, error } = await supabase
+        const { data, error } = await supabase
             .from("zones")
             .select("*")
             .eq("id", req.params.id);
         if (error) throw error;
-        res.status(200).json(zone);
+        res.status(200).json(data[0]);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
