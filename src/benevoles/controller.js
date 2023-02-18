@@ -30,7 +30,7 @@ router.createBenevole = async (req, res) => {
             .insert([{ prenom, nom, email }])
             .select("*")
         if (error) throw error;
-        res.status(201).json(data);
+        res.status(201).json(data[0]);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
