@@ -44,13 +44,15 @@ router.createZone = async (req, res) => {
 
 // Update a zone
 router.updateZone = async (req, res) => {
+    const { nom } = req.body;
     try {
-        const { data: zone, error } = await supabase
+        const { data, error } = await supabase
             .from("zones")
-            .update(req.body)
-            .eq("id", req.params.id);
+            .update({ nom })
+            .eq("id", req.params.id)
+            .select("*");
         if (error) throw error;
-        res.status(200).json(zone);
+        res.status(200).json(data[0]);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

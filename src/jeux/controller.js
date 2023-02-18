@@ -107,13 +107,15 @@ router.createJeu = async (req, res) => {
 
 // Update a jeu
 router.updateJeu = async (req, res) => {
+    const { nom, type, zone } = req.body;
     try {
-        const { data: jeu, error } = await supabase
+        const { data, error } = await supabase
             .from("jeux")
-            .update(req.body)
-            .eq("id", req.params.id);
+            .update({ nom, type, zone })
+            .eq("id", req.params.id)
+            .select("*");
         if (error) throw error;
-        res.status(200).json(jeu);
+        res.status(200).json(data[0]);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

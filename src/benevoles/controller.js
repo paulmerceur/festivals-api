@@ -38,12 +38,18 @@ router.createBenevole = async (req, res) => {
 
 // Update benevole
 router.updateBenevole = async (req, res) => {
-    const { id } = req.params;
-    const { data, error } = await supabase.from("benevoles").update(req.body).eq("id", id);
-    if (error) {
-        res.status(400).json(error);
+    const { prenom, nom, email } = req.body;
+    try {
+        const { data, error } = await supabase
+            .from("benevoles")
+            .update({ prenom, nom, email })
+            .eq("id", req.params.id)
+            .select("*");
+        if (error) throw error;
+        res.status(200).json(data[0]);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-    res.status(200).json(data);
 }
 
 // Delete benevole
