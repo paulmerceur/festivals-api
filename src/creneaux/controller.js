@@ -43,7 +43,6 @@ router.getCreneauByZoneId = async (req, res) => {
         const { data, error } = await supabase
             .from("creneaux")
             .select(`
-                zone(id, nom),
                 benevole(id, prenom, nom, email),
                 creneau
             `)
@@ -62,7 +61,6 @@ router.getCreneauByBenevoleId = async (req, res) => {
             .from("creneaux")
             .select(`
                 zone(id, nom),
-                benevole(id, prenom, nom, email),
                 creneau
             `)
             .eq("benevole", req.params.id);
