@@ -4,6 +4,12 @@ const supabase = require("../../config");
 
 // Get all jeux
 router.getAllJeux = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     try {
         const { data, error } = await supabase
             .from("jeux")
@@ -22,6 +28,12 @@ router.getAllJeux = async (req, res) => {
 
 // Get jeu by id
 router.getJeuById = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     try {
         const { data, error } = await supabase
             .from("jeux")
@@ -41,6 +53,12 @@ router.getJeuById = async (req, res) => {
 
 // Get all jeux by benevole
 router.getJeuxByBenevole = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     try {
         const { data: creneaux, error } = await supabase
             .from("creneaux")
@@ -73,6 +91,12 @@ router.getJeuxByBenevole = async (req, res) => {
 
 // Get all jeux by zone
 router.getJeuxByZone = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     try {
         const { data: jeu, error } = await supabase
             .from("jeux")
@@ -92,6 +116,12 @@ router.getJeuxByZone = async (req, res) => {
 
 // Create a new jeu
 router.createJeu = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     const { nom, type, zone } = req.body;
     try {
         const { data, error } = await supabase
@@ -107,6 +137,12 @@ router.createJeu = async (req, res) => {
 
 // Update a jeu
 router.updateJeu = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     const { nom, type, zone } = req.body;
     try {
         const { data, error } = await supabase
@@ -123,6 +159,12 @@ router.updateJeu = async (req, res) => {
 
 // Delete a jeu
 router.deleteJeu = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     try {
         const { data: jeu, error } = await supabase
             .from("jeux")

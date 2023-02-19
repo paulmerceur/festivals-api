@@ -4,6 +4,12 @@ const supabase = require("../../config");
 
 // Get all types
 router.getAllTypes = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     try {
         const { data: types, error } = await supabase
             .rpc("get_types")
