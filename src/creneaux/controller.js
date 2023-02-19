@@ -9,7 +9,7 @@ router.getAllCreneaux = async (req, res) => {
             .from("creneaux")
             .select(`
                 zone(id, nom),
-                benevole,
+                benevole(id, prenom, nom, email),
                 creneau
             `)
         if (error) throw error;
@@ -26,7 +26,7 @@ router.getCreneauById = async (req, res) => {
             .from("creneaux")
             .select(`
                 zone(id, nom),
-                benevole,
+                benevole(id, prenom, nom, email),
                 creneau
             `)
             .eq("id", req.params.id);
@@ -44,7 +44,7 @@ router.getCreneauByZoneId = async (req, res) => {
             .from("creneaux")
             .select(`
                 zone(id, nom),
-                benevole,
+                benevole(id, prenom, nom, email),
                 creneau
             `)
             .eq("zone", req.params.id);
@@ -62,7 +62,7 @@ router.getCreneauByBenevoleId = async (req, res) => {
             .from("creneaux")
             .select(`
                 zone(id, nom),
-                benevole,
+                benevole(id, prenom, nom, email),
                 creneau
             `)
             .eq("benevole", req.params.id);

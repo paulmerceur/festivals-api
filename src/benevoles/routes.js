@@ -13,9 +13,6 @@ router.get("/:id", controller.getBenevoleById);
 router.post("/", controller.createBenevole);
 router.put("/:id", controller.updateBenevole);
 router.delete("/:id", controller.deleteBenevole);
-// Using the creneaux
-router.get("/creneau/:creneau", controller.getBenevoleByCreneau);
-router.get("/zone/:id", controller.getBenevoleByZoneId);
 
 
 module.exports = router;
