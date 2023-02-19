@@ -27,6 +27,34 @@ router.getCreneauById = async (req, res) => {
     }
 }
 
+// Get creneau by zone id
+router.getCreneauByZoneId = async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from("creneaux")
+            .select("*")
+            .eq("zone", req.params.id);
+        if (error) throw error;
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+// Get creneau by benevole id
+router.getCreneauByBenevoleId = async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from("creneaux")
+            .select("*")
+            .eq("benevole", req.params.id);
+        if (error) throw error;
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 // Create a new creneau
 router.createCreneau = async (req, res) => {
     const {zone, benevole, creneau} = req.body;
