@@ -5,9 +5,15 @@ const supabase = require("../../config");
 // Get all creneaux
 router.getAllCreneaux = async (req, res) => {
     try {
-        const { data: creneaux, error } = await supabase.from("creneaux").select("*");
+        const { data, error } = await supabase
+            .from("creneaux")
+            .select(`
+                zone(id, nom),
+                benevole,
+                creneau
+            `)
         if (error) throw error;
-        res.status(200).json(creneaux);
+        res.status(200).json(data);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -18,7 +24,11 @@ router.getCreneauById = async (req, res) => {
     try {
         const { data, error } = await supabase
             .from("creneaux")
-            .select("*")
+            .select(`
+                zone(id, nom),
+                benevole,
+                creneau
+            `)
             .eq("id", req.params.id);
         if (error) throw error;
         res.status(200).json(data[0]);
@@ -32,7 +42,11 @@ router.getCreneauByZoneId = async (req, res) => {
     try {
         const { data, error } = await supabase
             .from("creneaux")
-            .select("*")
+            .select(`
+                zone(id, nom),
+                benevole,
+                creneau
+            `)
             .eq("zone", req.params.id);
         if (error) throw error;
         res.status(200).json(data);
@@ -46,7 +60,11 @@ router.getCreneauByBenevoleId = async (req, res) => {
     try {
         const { data, error } = await supabase
             .from("creneaux")
-            .select("*")
+            .select(`
+                zone(id, nom),
+                benevole,
+                creneau
+            `)
             .eq("benevole", req.params.id);
         if (error) throw error;
         res.status(200).json(data);

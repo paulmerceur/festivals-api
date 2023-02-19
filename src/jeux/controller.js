@@ -5,7 +5,7 @@ const supabase = require("../../config");
 // Get all jeux
 router.getAllJeux = async (req, res) => {
     try {
-        const { data: jeux, error } = await supabase
+        const { data, error } = await supabase
             .from("jeux")
             .select(`
                 id,
@@ -14,7 +14,7 @@ router.getAllJeux = async (req, res) => {
                 zone: zone (id, nom)
             `);
         if (error) throw error;
-        res.status(200).json(jeux);
+        res.status(200).json(data);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
