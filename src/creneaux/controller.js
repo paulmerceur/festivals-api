@@ -29,12 +29,14 @@ router.getCreneauById = async (req, res) => {
 
 // Create a new creneau
 router.createCreneau = async (req, res) => {
+    const {zone, benevole, creneau} = req.body;
     try {
-        const { data: creneau, error } = await supabase
+        const { data, error } = await supabase
             .from("creneaux")
-            .insert([{ ...req.body }]);
+            .insert([{ zone, benevole, creneau }])
+            .select("*")
         if (error) throw error;
-        res.status(200).json(creneau);
+        res.status(201).json(data[0]);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -42,13 +44,15 @@ router.createCreneau = async (req, res) => {
 
 // Update a creneau
 router.updateCreneau = async (req, res) => {
+    const {zone, benevole, creneau} = req.body;
     try {
-        const { data: creneau, error } = await supabase
+        const { data, error } = await supabase
             .from("creneaux")
-            .update(req.body)
-            .eq("id", req.params.id);
+            .update({ zone, benevole, creneau })
+            .eq("id", req.params.id)
+            .select("*");
         if (error) throw error;
-        res.status(200).json(creneau);
+        res.status(200).json(data[0]);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
