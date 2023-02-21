@@ -4,6 +4,12 @@ const supabase = require("../../config");
 
 // Get all creneaux
 router.getAllCreneaux = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     try {
         const { data, error } = await supabase
             .from("creneaux")
@@ -21,6 +27,12 @@ router.getAllCreneaux = async (req, res) => {
 
 // Get creneau by id
 router.getCreneauById = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     try {
         const { data, error } = await supabase
             .from("creneaux")
@@ -39,6 +51,12 @@ router.getCreneauById = async (req, res) => {
 
 // Get creneau by zone id
 router.getCreneauByZoneId = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     try {
         const { data, error } = await supabase
             .from("creneaux")
@@ -56,6 +74,12 @@ router.getCreneauByZoneId = async (req, res) => {
 
 // Get creneau by benevole id
 router.getCreneauByBenevoleId = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     try {
         const { data, error } = await supabase
             .from("creneaux")
@@ -73,6 +97,12 @@ router.getCreneauByBenevoleId = async (req, res) => {
 
 // Create a new creneau
 router.createCreneau = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     const {zone, benevole, creneau} = req.body;
     try {
         const { data, error } = await supabase
@@ -88,6 +118,12 @@ router.createCreneau = async (req, res) => {
 
 // Update a creneau
 router.updateCreneau = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     const {zone, benevole, creneau} = req.body;
     try {
         const { data, error } = await supabase
@@ -104,6 +140,12 @@ router.updateCreneau = async (req, res) => {
 
 // Delete a creneau
 router.deleteCreneau = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     try {
         const { data: creneau, error } = await supabase
             .from("creneaux")

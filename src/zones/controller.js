@@ -4,6 +4,12 @@ const supabase = require("../../config");
 
 // Get all zones
 router.getAllZones = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     try {
         const { data: zones, error } = await supabase.from("zones").select("*");
         if (error) throw error;
@@ -15,6 +21,12 @@ router.getAllZones = async (req, res) => {
 
 // Get zone by id
 router.getZoneById = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     try {
         const { data, error } = await supabase
             .from("zones")
@@ -30,6 +42,12 @@ router.getZoneById = async (req, res) => {
 // Create a new zone
 router.createZone = async (req, res) => {
     const { nom } = req.body;
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     try {
         const { data, error } = await supabase
             .from("zones")
@@ -44,6 +62,12 @@ router.createZone = async (req, res) => {
 
 // Update a zone
 router.updateZone = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     const { nom } = req.body;
     try {
         const { data, error } = await supabase
@@ -60,6 +84,12 @@ router.updateZone = async (req, res) => {
 
 // Delete a zone
 router.deleteZone = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+    
     try {
         const { data: zone, error } = await supabase
             .from("zones")
