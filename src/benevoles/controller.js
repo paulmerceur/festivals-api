@@ -4,12 +4,6 @@ const supabase = require("../../config");
 
 // Get all benevoles
 router.getAllBenevoles = async (req, res) => {
-    // Check if user is logged in
-    const user = req.auth.user();
-    if (!user) {
-        res.status(401).json({ error: "Unauthorized" });
-    }
-
     const { data, error } = await supabase.from("benevoles").select("*");
     if (error) {
         res.status(400).json(error);
@@ -19,12 +13,6 @@ router.getAllBenevoles = async (req, res) => {
 
 // Get benevole by id
 router.getBenevoleById = async (req, res) => {
-    // Check if user is logged in
-    const user = req.auth.user();
-    if (!user) {
-        res.status(401).json({ error: "Unauthorized" });
-    }
-
     const { id } = req.params;
     const { data, error } = await supabase.from("benevoles").select("*").eq("id", id);
     if (error) {
@@ -34,13 +22,7 @@ router.getBenevoleById = async (req, res) => {
 }
 
 // Create benevole
-router.createBenevole = async (req, res) => {
-    // Check if user is logged in
-    const user = req.auth.user();
-    if (!user) {
-        res.status(401).json({ error: "Unauthorized" });
-    }
-    
+router.createBenevole = async (req, res) => {    
     const { prenom, nom, email } = req.body;
     try {
         const { data, error } = await supabase
@@ -55,13 +37,7 @@ router.createBenevole = async (req, res) => {
 }
 
 // Update benevole
-router.updateBenevole = async (req, res) => {
-    // Check if user is logged in
-    const user = req.auth.user();
-    if (!user) {
-        res.status(401).json({ error: "Unauthorized" });
-    }
-    
+router.updateBenevole = async (req, res) => {    
     const { prenom, nom, email } = req.body;
     try {
         const { data, error } = await supabase
@@ -77,13 +53,7 @@ router.updateBenevole = async (req, res) => {
 }
 
 // Delete benevole
-router.deleteBenevole = async (req, res) => {
-    // Check if user is logged in
-    const user = req.auth.user();
-    if (!user) {
-        res.status(401).json({ error: "Unauthorized" });
-    }
-    
+router.deleteBenevole = async (req, res) => {    
     const { id } = req.params;
     const { data, error } = await supabase.from("benevoles").delete().eq("id", id);
     if (error) {
