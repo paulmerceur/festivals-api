@@ -9,7 +9,7 @@ npm run start
 ## Technologies utilisées
 * Package manager: npm
 * Backend framework: Express.js
-* Database (+hosting): Supabase (PostgreSQL)
+* Database (+hosting): Supabase (PostgreSQL), automatically hash password
 * Hosting: Render.com (utilizing HTTPS for security)
 * API testing tool: Postman
 * Middleware: Body-parser and CORS middleware for Express.js
