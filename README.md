@@ -3,7 +3,7 @@
 ## Lancer le projet en local
 ```
 npm install
-npm run serve
+npm run start
 ```
 
 ## Technologies utilisées
