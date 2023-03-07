@@ -114,7 +114,7 @@ router.updateJeu = async (req, res) => {
     try {
         const { data, error } = await supabase
             .from("jeux")
-            .update({ nom, type, zone })
+            .update({ nom, type, zone, description })
             .eq("id", req.params.id)
             .select("*");
         if (error) throw error;
