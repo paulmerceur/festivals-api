@@ -11,6 +11,7 @@ router.getAllJeux = async (req, res) => {
                 id,
                 nom,
                 type,
+                description,
                 zone: zone (id, nom)
             `);
         if (error) throw error;
@@ -29,6 +30,7 @@ router.getJeuById = async (req, res) => {
                 id,
                 nom,
                 type,
+                description,
                 zone: zone (id, nom)
             `)
             .eq("id", req.params.id);
@@ -52,7 +54,7 @@ router.getJeuxByBenevole = async (req, res) => {
 
         const { data: jeux, error: error2 } = await supabase
             .from("jeux")
-            .select("id, nom, zone(*)")
+            .select("id, nom, zone(*), description")
             .in("zone", zoneIds);
         if (error2) throw error2;
         const result = creneaux.map(creneau => {
@@ -80,6 +82,7 @@ router.getJeuxByZone = async (req, res) => {
                 id,
                 nom,
                 type,
+                description,
                 zone: zone (id)
             `)
             .eq("zone", req.params.id);
@@ -92,11 +95,11 @@ router.getJeuxByZone = async (req, res) => {
 
 // Create a new jeu
 router.createJeu = async (req, res) => {
-    const { nom, type, zone } = req.body;
+    const { nom, type, zone, description } = req.body;
     try {
         const { data, error } = await supabase
             .from("jeux")
-            .insert([{ nom, type, zone }])
+            .insert([{ nom, type, zone, description }])
             .select("*")
         if (error) throw error;
         res.status(201).json(data[0]);
@@ -107,7 +110,7 @@ router.createJeu = async (req, res) => {
 
 // Update a jeu
 router.updateJeu = async (req, res) => {
-    const { nom, type, zone } = req.body;
+    const { nom, type, zone, description } = req.body;
     try {
         const { data, error } = await supabase
             .from("jeux")
