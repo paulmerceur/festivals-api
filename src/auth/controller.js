@@ -11,7 +11,16 @@ router.login = async (req, res) => {
             password: password
         })
         if (error) throw error;
-        res.status(200).json(data);
+
+        const { data: userData, error: userError } = await supabase
+            .from('user_infos')
+            .select('nom, prenom')
+            .eq('user_id', data.user.id)
+            .single();
+
+        if (userError) throw userError;
+
+        res.status(200).json({ ...data, user: { ...data.user, ...userData } });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -19,18 +28,26 @@ router.login = async (req, res) => {
 
 // Register user
 router.register = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, nom, prenom } = req.body;
     try {
         const { data, error } = await supabase.auth.signUp({
             email: email,
             password: password
         })
         if (error) throw error;
-        res.status(201).json(data);
+
+        const { data: userData, error: benevoleError } = await supabase
+            .from('user_infos')
+            .insert([{ user_id: data.user.id, nom: nom, prenom: prenom }]);
+
+        if (benevoleError) throw benevoleError;
+
+        res.status(201).json({ ...data, user: { ...data.user, ...userData[0] } });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
+
 
 // Logout user
 router.logout = async (req, res) => {
