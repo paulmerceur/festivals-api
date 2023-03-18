@@ -4,7 +4,7 @@ const supabase = require("../../config");
 
 // Get all benevoles
 router.getAllBenevoles = async (req, res) => {
-    const { data, error } = await supabase.from("benevoles").select("*");
+    const { data, error } = await supabase.from("users_infos").select("*");
     if (error) {
         res.status(400).json(error);
     }
@@ -14,7 +14,7 @@ router.getAllBenevoles = async (req, res) => {
 // Get benevole by id
 router.getBenevoleById = async (req, res) => {
     const { id } = req.params;
-    const { data, error } = await supabase.from("benevoles").select("*").eq("id", id);
+    const { data, error } = await supabase.from("users_infos").select("*").eq("user_id", id);
     if (error) {
         res.status(400).json(error);
     }
@@ -23,11 +23,11 @@ router.getBenevoleById = async (req, res) => {
 
 // Create benevole
 router.createBenevole = async (req, res) => {    
-    const { prenom, nom, email } = req.body;
+    const { prenom, nom } = req.body;
     try {
         const { data, error } = await supabase
-            .from("benevoles")
-            .insert([{ prenom, nom, email }])
+            .from("users_infos")
+            .insert([{ prenom, nom }])
             .select("*")
         if (error) throw error;
         res.status(201).json(data[0]);
@@ -38,12 +38,12 @@ router.createBenevole = async (req, res) => {
 
 // Update benevole
 router.updateBenevole = async (req, res) => {    
-    const { prenom, nom, email } = req.body;
+    const { prenom, nom } = req.body;
     try {
         const { data, error } = await supabase
-            .from("benevoles")
-            .update({ prenom, nom, email })
-            .eq("id", req.params.id)
+            .from("users_infos")
+            .update({ prenom, nom })
+            .eq("user_id", req.params.id)
             .select("*");
         if (error) throw error;
         res.status(200).json(data[0]);
@@ -55,7 +55,7 @@ router.updateBenevole = async (req, res) => {
 // Delete benevole
 router.deleteBenevole = async (req, res) => {    
     const { id } = req.params;
-    const { data, error } = await supabase.from("benevoles").delete().eq("id", id);
+    const { data, error } = await supabase.from("users_infos").delete().eq("user_id", id);
     if (error) {
         res.status(400).json(error);
     }
