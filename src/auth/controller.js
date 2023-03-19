@@ -13,7 +13,7 @@ router.login = async (req, res) => {
         if (error) throw error;
 
         const { data: userData, error: userError } = await supabase
-            .from('user_infos')
+            .from('users_infos')
             .select('nom, prenom')
             .eq('user_id', data.user.id)
             .single();
@@ -37,7 +37,7 @@ router.register = async (req, res) => {
         if (error) throw error;
 
         const { data: userData, error: benevoleError } = await supabase
-            .from('user_infos')
+            .from('users_infos')
             .insert([{ user_id: data.user.id, nom: nom, prenom: prenom }]);
 
         if (benevoleError) throw benevoleError;
