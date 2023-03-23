@@ -20,7 +20,7 @@ router.login = async (req, res) => {
 
         if (userError) throw userError;
 
-        res.status(200).json({ ...data, user: { ...data.user, ...userData } });
+        res.status(200).json({ ...data, user_infos: { ...userData } });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -42,7 +42,7 @@ router.register = async (req, res) => {
 
         if (benevoleError) throw benevoleError;
 
-        res.status(201).json({ ...data, user: { ...data.user, ...userData[0] } });
+        res.status(201).json({ ...data, user_infos: { ...userData[0] } });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
