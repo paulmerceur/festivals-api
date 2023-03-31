@@ -13,8 +13,6 @@ router.get("/:id", controller.getCreneauById);
 router.post("/", controller.createCreneau);
 router.put("/:id", controller.updateCreneau);
 router.delete("/:id", controller.deleteCreneau);
-router.get("/zone/:id", controller.getCreneauByZoneId);
-router.get("/benevole/:id", controller.getCreneauByBenevoleId);
 
 
 module.exports = router;

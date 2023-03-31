@@ -10,7 +10,25 @@ router.getAllBenevoles = async (req, res) => {
         res.status(401).json({ error: "Unauthorized" });
     }
 
-    const { data, error } = await supabase.from("benevoles").select("*");
+    const { data, error } = await supabase.from("user").select("*");
+    if (error) {
+        res.status(400).json(error);
+    }
+    res.status(200).json(data);
+}
+
+router.getAllBenevoles = async (req, res) => {
+    // Check if user is logged in
+    const user = req.auth.user();
+    if (!user) {
+        res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const { data, error } = await supabase
+        .from("user")
+        .select("id, email")
+        .not("role", "eq", "admin"); // Ajout de la condition pour filtrer les benevoles
+
     if (error) {
         res.status(400).json(error);
     }

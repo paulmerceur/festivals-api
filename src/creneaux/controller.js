@@ -14,9 +14,10 @@ router.getAllCreneaux = async (req, res) => {
         const { data, error } = await supabase
             .from("creneaux")
             .select(`
-                zone(id, nom),
-                benevole(id, prenom, nom, email),
-                creneau
+                festival(id, nom),
+                heure_debut,
+                heure_fin,
+                date
             `)
         if (error) throw error;
         res.status(200).json(data);
@@ -37,9 +38,10 @@ router.getCreneauById = async (req, res) => {
         const { data, error } = await supabase
             .from("creneaux")
             .select(`
-                zone(id, nom),
-                benevole(id, prenom, nom, email),
-                creneau
+                festival(id, nom),
+                heure_debut,
+                heure_fin,
+                date
             `)
             .eq("id", req.params.id);
         if (error) throw error;
@@ -49,51 +51,31 @@ router.getCreneauById = async (req, res) => {
     }
 }
 
-// Get creneau by zone id
-router.getCreneauByZoneId = async (req, res) => {
-    // Check if user is logged in
-    const user = req.auth.user();
-    if (!user) {
-        res.status(401).json({ error: "Unauthorized" });
-    }
-    
-    try {
-        const { data, error } = await supabase
-            .from("creneaux")
-            .select(`
-                benevole(id, prenom, nom, email),
-                creneau
-            `)
-            .eq("zone", req.params.id);
-        if (error) throw error;
-        res.status(200).json(data);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-}
+// //Get creneau by festival
+// router.getCreneauByFestival = async (req, res) => {
+//     // Check if user is logged in
+//     const user = req.auth.user();
+//     if (!user) {
+//         res.status(401).json({ error: "Unauthorized" });
+//     }
 
-// Get creneau by benevole id
-router.getCreneauByBenevoleId = async (req, res) => {
-    // Check if user is logged in
-    const user = req.auth.user();
-    if (!user) {
-        res.status(401).json({ error: "Unauthorized" });
-    }
-    
-    try {
-        const { data, error } = await supabase
-            .from("creneaux")
-            .select(`
-                zone(id, nom),
-                creneau
-            `)
-            .eq("benevole", req.params.id);
-        if (error) throw error;
-        res.status(200).json(data);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-}
+//     try {
+//         const { data, error } = await supabase
+//             .from("creneaux")
+//             .select(`
+//                 festival(id, nom),
+//                 heure_debut,
+//                 heure_fin,
+//                 date
+//             `)
+//             .eq("festival", req.params.id);
+//         if (error) throw error;
+//         res.status(200).json(data);
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// }
+
 
 // Create a new creneau
 router.createCreneau = async (req, res) => {
@@ -103,15 +85,16 @@ router.createCreneau = async (req, res) => {
         res.status(401).json({ error: "Unauthorized" });
     }
     
-    const {zone, benevole, creneau} = req.body;
+    const {festival, heure_debut, heure_fin, date} = req.body;
     try {
         const { data, error } = await supabase
             .from("creneaux")
-            .insert([{ zone, benevole, creneau }])
-            .select("*")
+            .insert({ festival, heure_debut, heure_fin, date })
+            .select("*");
         if (error) throw error;
-        res.status(201).json(data[0]);
-    } catch (error) {
+        res.status(200).json(data[0]);
+    }
+    catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
@@ -124,16 +107,17 @@ router.updateCreneau = async (req, res) => {
         res.status(401).json({ error: "Unauthorized" });
     }
     
-    const {zone, benevole, creneau} = req.body;
+    const {festival, heure_debut, heure_fin, date} = req.body;
     try {
         const { data, error } = await supabase
             .from("creneaux")
-            .update({ zone, benevole, creneau })
+            .update({ festival, heure_debut, heure_fin, date })
             .eq("id", req.params.id)
             .select("*");
         if (error) throw error;
         res.status(200).json(data[0]);
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
@@ -147,15 +131,16 @@ router.deleteCreneau = async (req, res) => {
     }
     
     try {
-        const { data: creneau, error } = await supabase
+        const { data, error } = await supabase
             .from("creneaux")
             .delete()
             .eq("id", req.params.id);
         if (error) throw error;
-        res.status(200).json(creneau);
+        res.status(200).json(data[0]);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+
 }
 
 module.exports = router;
