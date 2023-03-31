@@ -2,36 +2,49 @@ const express = require('express');
 const router = express.Router();
 const supabase = require("../../config");
 
-// Get all benevoles
+// Get all benevoles 
 router.getAllBenevoles = async (req, res) => {
-    const { data, error } = await supabase
-        .from("user")
-        .select("id, email")
-        .not("role", "eq", "admin"); // Ajout de la condition pour filtrer les benevoles
-    if (error) {
-        res.status(400).json(error);
-    }
-    res.status(200).json(data);
-}
-
-// Get benevole by id
-router.getBenevoleById = async (req, res) => {
-    const { id } = req.params;
-    const { data, error } = await supabase.from("users_infos").select("*").eq("user_id", id);
-    if (error) {
-        res.status(400).json(error);
-    }
-    res.status(200).json(data[0]);
-}
-
-// Create benevole
-router.createBenevole = async (req, res) => {    
-    const { prenom, nom } = req.body;
     try {
         const { data, error } = await supabase
             .from("users_infos")
-            .insert([{ prenom, nom }])
             .select("*")
+            //where role = benevole
+            .eq("role", "benevole");
+        if (error) throw error;
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+
+
+
+
+
+
+// Get benevole by id
+router.getBenevoleById = async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from("users_infos")
+            .select("*")
+            .eq("user_id", req.params.id);
+        if (error) throw error;
+        res.status(200).json(data[0]);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+
+// Create benevole
+router.createBenevole = async (req, res) => {    
+    const { prenom, nom, email, role} = req.body;
+    try {
+        const { data, error } = await supabase
+            .from("users_infos")
+            .insert([{ prenom, nom, email, role }]);
         if (error) throw error;
         res.status(201).json(data[0]);
     } catch (error) {
@@ -39,15 +52,16 @@ router.createBenevole = async (req, res) => {
     }
 }
 
+
 // Update benevole
-router.updateBenevole = async (req, res) => {    
-    const { prenom, nom } = req.body;
+router.updateBenevole = async (req, res) => {
+    const { id } = req.params;
+    const { prenom, nom, email, role } = req.body;
     try {
         const { data, error } = await supabase
             .from("users_infos")
-            .update({ prenom, nom })
-            .eq("user_id", req.params.id)
-            .select("*");
+            .update({ prenom, nom, email, role })
+            .eq("user_id", id);
         if (error) throw error;
         res.status(200).json(data[0]);
     } catch (error) {
@@ -56,13 +70,36 @@ router.updateBenevole = async (req, res) => {
 }
 
 // Delete benevole
-router.deleteBenevole = async (req, res) => {    
+router.deleteBenevole = async (req, res) => {
     const { id } = req.params;
-    const { data, error } = await supabase.from("users_infos").delete().eq("user_id", id);
-    if (error) {
-        res.status(400).json(error);
+    try {
+        const { data, error } = await supabase
+            .from("users_infos")
+            .delete()
+            .eq("user_id", id);
+        if (error) throw error;
+        res.status(200).json({ message: "Benevole deleted" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-    res.status(200).json(data);
+}
+
+// Get festivals by benevole id
+router.getFestivalsByBenevoleId = async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from("benevoles_festivals")
+            .select(`
+                id: benevole,
+                festival: festival(id, nom)
+            `)
+            .eq("benevole", req.params.id)
+
+        if (error) throw error;
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 }
 
 

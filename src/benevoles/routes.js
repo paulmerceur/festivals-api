@@ -13,7 +13,7 @@ router.get("/:id", controller.getBenevoleById);
 router.post("/", controller.createBenevole);
 router.put("/:id", controller.updateBenevole);
 router.delete("/:id", controller.deleteBenevole);
-//router.get("/:id/festival", controller.getFestivalsByBenevole);
+router.get("/:id/festivals", controller.getFestivalsByBenevoleId);
 
 
 module.exports = router;
