@@ -90,20 +90,22 @@ router.getFestivalsByBenevoleId = async (req, res) => {
         const { data, error } = await supabase
             .from("benevoles_festivals")
             .select(`
-                nom: festival(nom),
-                date_debut: festival(date_debut),
-                date_fin: festival(date_fin),
-                heure_debut: festival(heure_debut),
-                heure_fin: festival(heure_fin),
+                festival(id, nom, date_debut, date_fin, heure_debut, heure_fin)
             `)
-            .eq("benevole", req.params.id)
+            .eq("benevole", req.params.id);
 
         if (error) throw error;
-        res.status(200).json(data);
+
+        // Transform the data array into a new array of festival objects
+        const festivals = data.map((row) => row.festival);
+
+        // Return the festivals as a JSON array
+        res.status(200).json(festivals);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
+
 
 
 module.exports = router;
