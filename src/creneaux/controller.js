@@ -39,6 +39,23 @@ router.getCreneauById = async (req, res) => {
     }
 }
 
+//create a creneau
+router.createCreneau = async (req, res) => {
+    const {festival, heure_debut, heure_fin, date} = req.body;
+    try {
+        const { data, error } = await supabase
+            .from("creneaux")
+            .insert({ festival, heure_debut, heure_fin, date })
+            .select("*");
+        if (error) throw error;
+        res.status(200).json(data[0]);
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+
 // Update a creneau
 router.updateCreneau = async (req, res) => {    
     const {festival, heure_debut, heure_fin, date} = req.body;
