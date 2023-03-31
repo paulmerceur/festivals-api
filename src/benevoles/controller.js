@@ -90,8 +90,11 @@ router.getFestivalsByBenevoleId = async (req, res) => {
         const { data, error } = await supabase
             .from("benevoles_festivals")
             .select(`
-                id: benevole,
-                festival: festival(id, nom, date_debut, date_fin, heure_debut, heure_fin)
+                nom: festival(nom),
+                date_debut: festival(date_debut),
+                date_fin: festival(date_fin),
+                heure_debut: festival(heure_debut),
+                heure_fin: festival(heure_fin),
             `)
             .eq("benevole", req.params.id)
 
