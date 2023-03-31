@@ -8,7 +8,7 @@ router.use(cors());
 router.use(express.json());
 
 // Call controller
-router.get("/", controller.getAllTypes);
+router.get("/:id/zones", controller.getZonesByFestival)
 
 
 module.exports = router;

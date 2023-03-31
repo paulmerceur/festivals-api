@@ -4,7 +4,10 @@ const supabase = require("../../config");
 
 // Get all benevoles
 router.getAllBenevoles = async (req, res) => {
-    const { data, error } = await supabase.from("users_infos").select("*");
+    const { data, error } = await supabase
+        .from("user")
+        .select("id, email")
+        .not("role", "eq", "admin"); // Ajout de la condition pour filtrer les benevoles
     if (error) {
         res.status(400).json(error);
     }
