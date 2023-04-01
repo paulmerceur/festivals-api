@@ -145,7 +145,12 @@ router.getAffectationsByBenevoleIdAndFestivalId = async (req, res) => {
     try {
         const { data, error } = await supabase
             .from("affectations")
-            .select("*")
+            .select(`zones(id, nom),
+            creneaux(id, date, heure_debut, heure_fin),
+            benevoles(user_id, prenom, nom)
+            isDispo,
+            id
+        `)
             .eq("benevoles", req.params.benevoleId)
             //verifier si le festivalId est bien celui du benevole
             //le festivalId est dans la table creneaux

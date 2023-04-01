@@ -14,7 +14,7 @@ router.post("/", controller.createBenevole);
 router.put("/:id", controller.updateBenevole);
 router.delete("/:id", controller.deleteBenevole);
 router.get("/:id/festivals", controller.getFestivalsByBenevoleId);
-router.get("/:benevoleId/festivals/:festivalId/affectations", controller.getAffectationsByBenevoleIdAndFestivalId);
+router.get("/:benevoleId/festivals/:festivalIds", controller.getAffectationsByBenevoleIdAndFestivalId);
 //router.put("/:id/affectations", controller.updateAffectation);
 
 
