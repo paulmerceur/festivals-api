@@ -14,7 +14,7 @@ router.login = async (req, res) => {
 
         const { data: userData, error: userError } = await supabase
             .from('users_infos')
-            .select('nom, prenom')
+            .select('*')
             .eq('user_id', data.user.id)
             .single();
 
