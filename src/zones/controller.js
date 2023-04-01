@@ -77,4 +77,21 @@ router.deleteZone = async (req, res) => {
     }
 }
 
+
+//getAffecationByZone
+router.getAffectationsByZone = async (req, res) => {
+    try {
+        const { data: affecation, error } = await supabase
+            .from("affectations")
+            .select("*")
+            .eq("zone", req.params.id);
+        if (error) throw error;
+        res.status(200).json(affecation);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+
+
 module.exports = router;

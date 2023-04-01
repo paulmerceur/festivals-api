@@ -13,5 +13,6 @@ router.get("/:id", controller.getZoneById);
 router.post("/", controller.createZone);
 router.put("/:id", controller.updateZone);
 router.delete("/:id", controller.deleteZone);
+router.get("/:id/affectations", controller.getAffectationsByZone);
 
 module.exports = router;
