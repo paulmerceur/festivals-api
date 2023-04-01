@@ -145,7 +145,7 @@ router.getAffectationsByBenevoleIdAndFestivalId = async (req, res) => {
     try {
         const { data, error } = await supabase
             .from("affectations")
-            .select(`zone(id, nom),
+            .select(`zone(id, nom, festival, nb_benevoles_min),
             creneau(id, date, heure_debut, heure_fin),
             benevole(user_id, prenom, nom, email, role),
             is_dispo,
