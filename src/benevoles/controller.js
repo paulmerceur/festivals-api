@@ -29,13 +29,47 @@ router.getBenevoleById = async (req, res) => {
         const { data, error } = await supabase
             .from("users_infos")
             .select("*")
-            .eq("user_id", req.params.id);
+            .eq("id", req.params.id);
         if (error) throw error;
         res.status(200).json(data[0]);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
+
+
+//getAffectationsByBenevoleId
+router.getAffectationsByBenevoleId = async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from("affectations")
+            .select("*")
+            .eq("benevole", req.params.id);
+        if (error) throw error;
+        res.status(200).json(data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+//updateAffectationByBenevoleId
+router.updateAffectation = async (req, res) => {
+    const { id } = req.params;
+    const { creneau, benevole } = req.body;
+    try {
+        const { data, error } = await supabase
+            .from("affectations")
+            .update({ creneau, benevole })
+            .eq("benevole", id);
+        if (error) throw error;
+        res.status(200).json(data[0]);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+
+
 
 
 // Create benevole

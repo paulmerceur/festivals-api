@@ -8,7 +8,7 @@ router.getAllCreneaux = async (req, res) => {
         const { data, error } = await supabase
             .from("creneaux")
             .select(`
-                festival(id, nom),
+                
                 heure_debut,
                 heure_fin,
                 date

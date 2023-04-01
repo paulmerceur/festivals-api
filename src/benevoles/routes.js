@@ -14,6 +14,8 @@ router.post("/", controller.createBenevole);
 router.put("/:id", controller.updateBenevole);
 router.delete("/:id", controller.deleteBenevole);
 router.get("/:id/festivals", controller.getFestivalsByBenevoleId);
+router.get("/:id/affectations", controller.getAffectationsByBenevoleId);
+router.put("/:id/affectations", controller.updateAffectation);
 
 
 module.exports = router;
