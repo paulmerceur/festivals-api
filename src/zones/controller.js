@@ -29,34 +29,39 @@ router.getZoneById = async (req, res) => {
 
 // Create a new zone
 router.createZone = async (req, res) => {
-    const { nom } = req.body;
+    const { nom, nb_benevoles_min, festival } = req.body;
     try {
-        const { data, error } = await supabase
+        const { data: zone, error } = await supabase
             .from("zones")
-            .insert([{ nom }])
-            .select("*")
+            .insert({ nom, nb_benevoles_min, festival })
+            .select("*");
         if (error) throw error;
-        res.status(201).json(data[0]);
+        res.status(200).json(zone[0]);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
 
+    
+
 // Update a zone
 router.updateZone = async (req, res) => {
-    const { nom } = req.body;
+    const { nom, nb_benevoles_min } = req.body;
     try {
-        const { data, error } = await supabase
+        const { data: zone, error } = await supabase
             .from("zones")
-            .update({ nom })
+            .update({ nom, nb_benevoles_min })
             .eq("id", req.params.id)
             .select("*");
         if (error) throw error;
-        res.status(200).json(data[0]);
+        res.status(200).json(zone[0]);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
+
+
+    
 
 // Delete a zone
 router.deleteZone = async (req, res) => {
