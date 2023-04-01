@@ -136,13 +136,15 @@ router.getFestivalsByBenevoleId = async (req, res) => {
                 // Select zones for the festival
                 const { data: zoneData } = await supabase
                     .from("zones")
-                    .select("id, nom")
+                    .select("*")
                     .eq("festival", row.festival.id);
 
                 // Map the zoneData array to new zone objects
                 const zones = zoneData.map((zone) => ({
                     id: zone.id,
                     nom: zone.nom,
+                    festival: zone.festival,
+                    nb_benevoles_min: zone.nb_benevoles_min
                 }));
 
                 // Return the festival object with the zones array
