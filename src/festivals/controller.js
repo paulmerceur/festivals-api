@@ -8,10 +8,18 @@ router.createFestival = async (req, res) => {
     try {
         const { data, error } = await supabase
             .from("festivals")
-            .insert({ nom, date_debut, date_fin, heure_debut, heure_fin })
-            .select("*");
+            .insert({ nom, date_debut, date_fin, heure_debut, heure_fin });
+
         if (error) throw error;
-        res.status(200).json(data[0]);
+
+        const { data: createdFestival, error: selectError } = await supabase
+            .from("festivals")
+            .select("*")
+            .eq("nom", nom);
+
+        if (selectError) throw selectError;
+
+        res.status(200).json(createdFestival[0]);
     }
     catch (error) {
         res.status(500).json({ error: error.message });

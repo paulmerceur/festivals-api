@@ -8,11 +8,10 @@ router.getAllCreneaux = async (req, res) => {
         const { data, error } = await supabase
             .from("creneaux")
             .select(`
-                
-                heure_debut,
-                heure_fin,
-                date
-            `)
+            festivals(id, nom),
+            heure_debut,
+            heure_fin,
+            date`)
         if (error) throw error;
         res.status(200).json(data);
     } catch (error) {
@@ -26,7 +25,7 @@ router.getCreneauById = async (req, res) => {
         const { data, error } = await supabase
             .from("creneaux")
             .select(`
-                festival(id, nom),
+                festivals(id, nom),
                 heure_debut,
                 heure_fin,
                 date
@@ -41,11 +40,11 @@ router.getCreneauById = async (req, res) => {
 
 //create a creneau
 router.createCreneau = async (req, res) => {
-    const {festival, heure_debut, heure_fin, date} = req.body;
+    const {festivals, heure_debut, heure_fin, date} = req.body;
     try {
         const { data, error } = await supabase
             .from("creneaux")
-            .insert({ festival, heure_debut, heure_fin, date })
+            .insert({ festivals, heure_debut, heure_fin, date })
             .select("*");
         if (error) throw error;
         res.status(200).json(data[0]);
@@ -58,11 +57,11 @@ router.createCreneau = async (req, res) => {
 
 // Update a creneau
 router.updateCreneau = async (req, res) => {    
-    const {festival, heure_debut, heure_fin, date} = req.body;
+    const {festivals, heure_debut, heure_fin, date} = req.body;
     try {
         const { data, error } = await supabase
             .from("creneaux")
-            .update({ festival, heure_debut, heure_fin, date })
+            .update({ festivals, heure_debut, heure_fin, date })
             .eq("id", req.params.id)
             .select("*");
         if (error) throw error;
