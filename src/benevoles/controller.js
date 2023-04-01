@@ -148,7 +148,7 @@ router.getAffectationsByBenevoleIdAndFestivalId = async (req, res) => {
             .select(`zone(id, nom),
             creneau(id, date, heure_debut, heure_fin),
             benevole(user_id, prenom, nom, email, role),
-            isDispo,
+            is_dispo,
             id
         `)
             .eq("benevole", req.params.benevoleId)
