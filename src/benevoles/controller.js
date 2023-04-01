@@ -131,14 +131,35 @@ router.getFestivalsByBenevoleId = async (req, res) => {
         if (error) throw error;
 
         // Transform the data array into a new array of festival objects
-        const festivals = data.map((row) => row.festival);
+        const festivals = await Promise.all(
+            data.map(async (row) => {
+                // Select zones for the festival
+                const { data: zoneData } = await supabase
+                    .from("zones")
+                    .select("id, nom")
+                    .eq("festival", row.festival.id);
+
+                // Map the zoneData array to new zone objects
+                const zones = zoneData.map((zone) => ({
+                    id: zone.id,
+                    nom: zone.nom,
+                }));
+
+                // Return the festival object with the zones array
+                return {
+                    ...row.festival,
+                    zones,
+                };
+            })
+        );
 
         // Return the festivals as a JSON array
         res.status(200).json(festivals);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-}
+};
+
 
 
 
