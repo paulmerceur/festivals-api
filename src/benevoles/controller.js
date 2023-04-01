@@ -149,7 +149,7 @@ router.getAffectationsByBenevoleIdAndFestivalId = async (req, res) => {
             .eq("benevoles", req.params.benevoleId)
             //verifier si le festivalId est bien celui du benevole
             //le festivalId est dans la table creneaux
-            .eq("creneaux(festivals)", req.params.festivalId);
+            //.eq("creneaux(festivals)", req.params.festivalId);
         if (error) throw error;
         res.status(200).json(data);
     } catch (error) {
