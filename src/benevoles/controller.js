@@ -161,6 +161,40 @@ router.getAffectationsByBenevoleIdAndFestivalId = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+ 
+//affecter a un benevole tout les creneaux d'un festival
+router.affecterBenevole = async (req, res) => {
+    const { festivalId, benevoleId } = req.params;
+
+    try {
+      // récupérer tous les créneaux du festival
+      const { data: creneaux, error: creneauxError } = await supabase
+        .from("creneaux")
+        .select("*")
+        .eq("festival", festivalId);
+  
+      if (creneauxError) throw creneauxError;
+  
+      // pour chaque créneau, créer une affectation pour le bénévole
+      for (const creneau of creneaux) {
+        const { data: affectation, error: affectationError } = await supabase
+          .from("affectations")
+          .insert({
+            benevole: benevoleId,
+            creneau: creneau.id,
+            zone: null,
+            is_dispo: false,
+          })
+          .select("*");
+  
+        if (affectationError) throw affectationError;
+      }
+  
+      res.status(200).json(creneaux);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
 
 
 
