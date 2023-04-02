@@ -162,7 +162,7 @@ router.getAffectationsByBenevoleIdAndFestivalId = async (req, res) => {
     }
 };
 
-//updateAffectationByBenevoleId
+
 
 
 module.exports = router;
