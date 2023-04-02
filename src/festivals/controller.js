@@ -45,10 +45,6 @@ router.createFestival = async (req, res) => {
     }
 }
 
-
-
-
-
 //Delete a festival
 router.deleteFestival = async (req, res) => {
     try {
@@ -97,8 +93,7 @@ router.getAllFestivals = async (req, res) => {
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
-  };
-  
+}
 
 // Get festival by id
 router.getFestivalById = async (req, res) => {
@@ -134,8 +129,6 @@ router.getFestivalById = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
-
-
 
 // Get all zones by festival
 router.getZonesByFestival = async (req, res) => {
@@ -176,6 +169,28 @@ router.addCreneauxToFestival = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   }
+
+// Get all benevoles by festival
+router.getBenevolesByFestival = async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from("benevoles_festivals")
+            .select(`
+               benevole: benevole(*)
+            `)
+            .eq("festival", req.params.id);
+        if (error) throw error;
+
+        const modifiedData = data.map((item) => {
+            const { benevole, ...rest } = item;
+            return { id: benevole.id, ...benevole, ...rest };
+        });
+
+        res.status(200).json(modifiedData);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
     
 

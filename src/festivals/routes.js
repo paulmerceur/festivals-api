@@ -14,6 +14,7 @@ router.post("/", controller.createFestival);
 router.delete("/:id", controller.deleteFestival);
 router.get("/:id", controller.getFestivalById);
 router.post("/:id/creneaux", controller.addCreneauxToFestival);
+router.get("/:id/benevoles", controller.getBenevolesByFestival);
 
 
 
