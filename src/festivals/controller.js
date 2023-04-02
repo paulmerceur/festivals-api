@@ -33,17 +33,19 @@ router.createFestival = async (req, res) => {
             nb_benevoles_min: zone.nb_benevoles_min
         }));
 
-        const response = {
-            festival: createdFestival[0],
-            zones: zones
-        }
+        const festival = {
+            ...createdFestival[0],
+            zones
+        };
 
-        res.status(200).json(response);
+        res.status(200).json(festival);
     }
     catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
+
+
 
 
 
