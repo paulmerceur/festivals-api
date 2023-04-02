@@ -41,11 +41,11 @@ router.getCreneauById = async (req, res) => {
 
 //create a creneau
 router.createCreneau = async (req, res) => {
-    const {festivals, heure_debut, heure_fin, date} = req.body;
+    const {festival, heure_debut, heure_fin, date} = req.body;
     try {
         const { data, error } = await supabase
             .from("creneaux")
-            .insert({ festivals, heure_debut, heure_fin, date })
+            .insert({ festival, heure_debut, heure_fin, date })
             .select("*");
         if (error) throw error;
         res.status(200).json(data[0]);

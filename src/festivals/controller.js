@@ -192,20 +192,43 @@ router.getBenevolesByFestival = async (req, res) => {
     }
 };
 
-// Add benevole to a festival
+// Add benevole to a festival and create affectations for each creneau
 router.addBenevoleToFestival = async (req, res) => {
     const { festivalId, benevoleId } = req.params;
     try {
-        const { error } = await supabase
+        const { data, error } = await supabase
             .from("benevoles_festivals")
             .insert({ benevole: benevoleId, festival: festivalId })
-        
+            .select("*");
         if (error) throw error;
-        res.status(200).json({ message: "Benevole added to festival" });
+
+        const { data: creneaux, error: creneauxError } = await supabase
+            .from("creneaux")
+            .select("*")
+            .eq("festival", festivalId);
+        if (creneauxError) throw creneauxError;
+
+        const affectations = creneaux.map((creneau) => ({
+            benevole: benevoleId,
+            creneau: creneau.id,
+            is_dispo: false,
+            zone: null,
+        }));
+
+        const { data: createdAffectations, error: affectationsError } = await supabase
+            .from("affectations")
+            .insert(affectations)
+            .select("*");
+        if (affectationsError) throw affectationsError;
+
+        res.status(200).json(createdAffectations);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-}
+};
+
+
+
 
 
     
