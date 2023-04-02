@@ -88,4 +88,26 @@ router.deleteCreneau = async (req, res) => {
 
 }
 
+
+router.createCreneauxForFestival = async (req, res) => {
+    const { festivalId, creneaux } = req.body;
+
+    try {
+      const createdCreneaux = [];
+      for (const creneau of creneaux) {
+        const { data: createdCreneau, error } = await supabase
+            .from("creneaux")
+            .insert({ ...creneau, festival: festivalId })
+            .select("*");
+        if (error) throw error;
+        const creneauId = createdCreneau[0].id;
+        createdCreneaux.push({ ...createdCreneau[0], affectations: [] });
+      }
+        res.status(200).json(createdCreneaux);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+
 module.exports = router;
