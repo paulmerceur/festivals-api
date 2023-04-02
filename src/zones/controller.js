@@ -92,6 +92,26 @@ router.getAffectationsByZone = async (req, res) => {
     }
 }
 
+router.createZonesForFestival = async (req, res) => {
+    const { festivalId, zones } = req.body;
 
+    try {
+      const createdZones = [];
+      for (const zone of zones) {
+        const { data: createdZone, error } = await supabase
+            .from("zones")
+            .insert({ ...zone, festival: festivalId })
+            .select("*");
+        if (error) throw error;
+        const zoneId = createdZone[0].id;
+        createdZones.push({ ...createdZone[0], affectations: [] });
+      }
+        res.status(200).json(createdZones);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+  
 
 module.exports = router;

@@ -26,6 +26,7 @@ router.createFestival = async (req, res) => {
     }
 }
 
+
 //Delete a festival
 router.deleteFestival = async (req, res) => {
     try {

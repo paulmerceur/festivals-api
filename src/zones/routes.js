@@ -14,5 +14,6 @@ router.post("/", controller.createZone);
 router.put("/:id", controller.updateZone);
 router.delete("/:id", controller.deleteZone);
 router.get("/:id/affectations", controller.getAffectationsByZone);
+router.post("/festival", controller.createZonesForFestival);
 
 module.exports = router;
