@@ -84,8 +84,8 @@ router.getAllFestivals = async (req, res) => {
             zones: zones.map((zone) => ({
               id: zone.id,
               nom: zone.nom,
-              nb_benevoles_min: zone.nb_benevoles_min,
               festival: zone.festival,
+              nb_benevoles_min: zone.nb_benevoles_min,
             })),
           };
         })
