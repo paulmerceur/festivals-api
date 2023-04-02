@@ -4,7 +4,7 @@ const supabase = require("../../config");
 
 //create a festival
 router.createFestival = async (req, res) => {
-    const {nom, date_debut, date_fin, heure_debut, heure_fin} = req.body;
+    const { nom, date_debut, date_fin, heure_debut, heure_fin } = req.body;
     try {
         const { data, error } = await supabase
             .from("festivals")
@@ -19,12 +19,32 @@ router.createFestival = async (req, res) => {
 
         if (selectError) throw selectError;
 
-        res.status(200).json(createdFestival[0]);
+        const { data: zoneData, error: zoneError } = await supabase
+            .from("zones")
+            .select("*")
+            .eq("festival", createdFestival[0].id);
+
+        if (zoneError) throw zoneError;
+
+        const zones = zoneData.map((zone) => ({
+            id: zone.id,
+            nom: zone.nom,
+            festival: zone.festival,
+            nb_benevoles_min: zone.nb_benevoles_min
+        }));
+
+        const response = {
+            festival: createdFestival[0],
+            zones: zones
+        }
+
+        res.status(200).json(response);
     }
     catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
+
 
 
 //Delete a festival
@@ -43,17 +63,40 @@ router.deleteFestival = async (req, res) => {
 }
 
 // Get all festivals
+//renvoie les infos des festivals et la liste des zones pour chaque festival
 router.getAllFestivals = async (req, res) => {
     try {
-        const { data, error } = await supabase
-            .from("festivals")
-            .select("*");
-        if (error) throw error;
-        res.status(200).json(data);
+      const { data, error } = await supabase.from("festivals").select("*");
+  
+      if (error) throw error;
+  
+      const festivals = await Promise.all(
+        data.map(async (festival) => {
+          const { data: zones, error } = await supabase
+            .from("zones")
+            .select("*")
+            .eq("festival", festival.id);
+  
+          if (error) throw error;
+  
+          return {
+            ...festival,
+            zones: zones.map((zone) => ({
+              id: zone.id,
+              nom: zone.nom,
+              nb_benevoles_min: zone.nb_benevoles_min,
+              festival: zone.festival,
+            })),
+          };
+        })
+      );
+  
+      res.status(200).json(festivals);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message });
     }
-}
+  };
+  
 
 // Get festival by id
 router.getFestivalById = async (req, res) => {
@@ -63,7 +106,28 @@ router.getFestivalById = async (req, res) => {
             .select("*")
             .eq("id", req.params.id);
         if (error) throw error;
-        res.status(200).json(data[0]);
+
+        // Select zones for the festival
+        const { data: zoneData } = await supabase
+            .from("zones")
+            .select("*")
+            .eq("festival", data[0].id);
+
+        // Map the zoneData array to new zone objects
+        const zones = zoneData.map((zone) => ({
+            id: zone.id,
+            nom: zone.nom,
+            festival: zone.festival,
+            nb_benevoles_min: zone.nb_benevoles_min
+        }));
+
+        // Return the festival object with the zones array
+        const festival = {
+            ...data[0],
+            zones,
+        };
+
+        res.status(200).json(festival);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
