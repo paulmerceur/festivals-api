@@ -192,6 +192,22 @@ router.getBenevolesByFestival = async (req, res) => {
     }
 };
 
+// Add benevole to a festival
+router.addBenevoleToFestival = async (req, res) => {
+    const { festivalId, benevoleId } = req.params;
+    try {
+        const { error } = await supabase
+            .from("benevoles_festivals")
+            .insert({ benevole: benevoleId, festival: festivalId })
+        
+        if (error) throw error;
+        res.status(200).json({ message: "Benevole added to festival" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+
     
 
 module.exports = router;
