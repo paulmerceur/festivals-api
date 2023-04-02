@@ -84,7 +84,13 @@ router.getAffectationsByZone = async (req, res) => {
     try {
         const { data: affecation, error } = await supabase
             .from("affectations")
-            .select("*")
+            .select(`
+                id,
+                is_dispo,
+                benevole(*),
+                zone(*),
+                creneau(*)
+            `)
             .eq("zone", req.params.id);
         if (error) throw error;
         res.status(200).json(affecation);
