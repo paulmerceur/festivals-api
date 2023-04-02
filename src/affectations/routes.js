@@ -10,6 +10,7 @@ router.use(express.json());
 // Call controller
 router.get("/", controller.getAllAffectations);
 router.put("/:id", controller.updateAffectation);
+router.delete("/:id", controller.deleteAffectation);
 
 
 module.exports = router;
