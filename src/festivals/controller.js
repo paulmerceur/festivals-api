@@ -86,6 +86,31 @@ router.getZonesByFestival = async (req, res) => {
     }
 }
 
+// Add creneaux to a festival
+router.addCreneauxToFestival = async (req, res) => {
+    const { id } = req.params;
+    let creneauxJson = req.body;
+  
+    try {
+      let createdCreneaux = [];
+      const creneaux = JSON.parse(JSON.stringify(creneauxJson));
+      if (!Array.isArray(creneaux)) {
+        throw new Error("creneaux must be an array");
+      }
+      for (const creneau of creneaux) {
+        const { data, error } = await supabase
+          .from("creneaux")
+          .insert({ ...creneau, festival: id })
+          .select("*");
+        if (error) throw error;
+        createdCreneaux.push(data[0]);
+      }
+      res.status(200).json(createdCreneaux);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
     
 
 module.exports = router;
