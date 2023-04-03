@@ -40,7 +40,7 @@ router.register = async (req, res) => {
 
         const { data: userData, error: benevoleError } = await supabase
             .from('users_infos')
-            .insert([{ user_id: data.user.id, nom: nom, prenom: prenom }]);
+            .insert([{ user_id: data.user.id, nom: nom, prenom: prenom, email: email }]);
 
         if (benevoleError) throw benevoleError;
 
