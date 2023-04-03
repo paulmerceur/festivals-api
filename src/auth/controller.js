@@ -32,7 +32,9 @@ router.register = async (req, res) => {
     try {
         const { data, error } = await supabase.auth.signUp({
             email: email,
-            password: password
+            password: password,
+            nom: nom,
+            prenom: prenom
         })
         if (error) throw error;
 
